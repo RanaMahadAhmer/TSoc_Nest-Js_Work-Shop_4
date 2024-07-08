@@ -12,6 +12,7 @@ import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { JwtAuthGuard } from '../auth/jwt_auth.guard';
+import { UserEmail } from '../common/decorator/user-email.decorator';
 
 @Controller('todo')
 export class TodoController {
@@ -19,14 +20,14 @@ export class TodoController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todoService.create(createTodoDto);
+  create(@Body() createTodoDto: CreateTodoDto, @UserEmail() userEmail: string) {
+    return this.todoService.create(createTodoDto, userEmail);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  findAll(@UserEmail() userEmail: string) {
+    return this.todoService.findAll(userEmail);
   }
 
   @UseGuards(JwtAuthGuard)
