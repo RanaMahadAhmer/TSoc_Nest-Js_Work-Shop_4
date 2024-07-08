@@ -3,23 +3,35 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { DatabaseService } from '../database/database.service';
 
+import { Prisma } from '@prisma/client';
+
 @Injectable()
 export class TodoService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async create(createTodoDto: CreateTodoDto) {
-    return;
+    try {
+      const data: Prisma.TodoCreateInput = {
+        task: createTodoDto.task,
+        description: createTodoDto.description,
+        status: 'ACTIVE',
+      };
+      console.log(data);
+      return this.databaseService.todo.create({ data });
+    } catch (error) {
+      return error;
+    }
   }
 
   findAll() {
-    return `This action returns all todo`;
+    return this.databaseService.todo.findMany();
   }
 
   findOne(id: number) {
     return `This action returns a #${id} todo`;
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
+  update(id: number) {
     return `This action updates a #${id} todo`;
   }
 
