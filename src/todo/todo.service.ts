@@ -31,11 +31,14 @@ export class TodoService {
     return this.databaseService.todo.findFirst({ where: { id: id } });
   }
 
-  update(id: number) {
-    return `This action updates a #${id} todo`;
+  async update(id: number, updateTodoDto: UpdateTodoDto) {
+    return this.databaseService.todo.update({
+      where: { id: id },
+      data: updateTodoDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} todo`;
+    return this.databaseService.todo.delete({ where: { id: id } });
   }
 }
