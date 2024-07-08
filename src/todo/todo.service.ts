@@ -28,7 +28,7 @@ export class TodoService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} todo`;
+    return this.databaseService.todo.findFirst({ where: { id: id } });
   }
 
   update(id: number) {
